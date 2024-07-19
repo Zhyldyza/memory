@@ -16,6 +16,7 @@ function App() {
   const [turns, setTurns]= useState(0);
   const [choiceOne, setChoiceOne]=useState(null);
   const [choiceTwo, setChoiceTwo]=useState(null);
+  const [disabled, setDisabled]=useState(false);
 
   const shuffleCards=()=>{
     const shuffledCards = [...cardImages, ...cardImages]
@@ -35,12 +36,17 @@ function App() {
   const resetTurn=()=>{
     setChoiceOne(null);
     setChoiceTwo(null);
-    setTurns((prev) => prev + 1);
+    setDisabled(false)
+
+    if(choiceOne || choiceTwo){
+      setTurns((prev) => prev + 1);
+      }
   };
 
   // compare 2 selected cards
   useEffect(()=>{
     if(choiceOne && choiceTwo){
+      setDisabled(true)
       if(choiceOne.src === choiceTwo.src){
         setCards((prevCards)=>{
           return prevCards.map((card)=>{
@@ -64,6 +70,10 @@ function App() {
     };
   }, [choiceOne,choiceTwo]);
 
+  useEffect(()=>{
+    shuffleCards();
+  },[]);
+
   return (
     <div className="App">
       <h1>Magic war</h1>
@@ -76,6 +86,7 @@ function App() {
            card={card} 
            handleChoice={handleChoice} 
            flipped={card ===choiceOne || card===choiceTwo || card.matched}
+           disabled={disabled}
           />
         ))}
 
