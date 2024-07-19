@@ -28,7 +28,6 @@ function App() {
 
   const handleChoice=(card)=>{
     choiceOne? setChoiceTwo(card):setChoiceOne(card);
-
    // console.log(choiceOne, 'first');
    //console.log(choiceTwo, 'second');
   };
@@ -36,7 +35,8 @@ function App() {
   const resetTurn=()=>{
     setChoiceOne(null);
     setChoiceTwo(null);
-  }
+    setTurns((prev) => prev + 1);
+  };
 
   // compare 2 selected cards
   useEffect(()=>{
@@ -78,6 +78,8 @@ function App() {
            flipped={card ===choiceOne || card===choiceTwo || card.matched}
           />
         ))}
+
+        <p>кол-во ходов: {turns}</p>
       </div>
     </div>
   );
